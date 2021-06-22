@@ -1,0 +1,62 @@
+﻿<Window x:Class="Kursach.Vievs.Computer.UpdComputer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kursach.Vievs.Computer"
+        mc:Ignorable="d"
+        Title="UpdComputer" Height="500" Width="439.706">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Изменить компьютер" HorizontalAlignment="Center"/>
+        <DockPanel Grid.Row="1">
+            <TextBlock Width="150" Text="Процессор"/>
+            <TextBox x:Name="proc" />
+        </DockPanel>
+        <DockPanel Grid.Row="2">
+            <TextBlock Width="150" Text="Видеокарта"/>
+            <TextBox x:Name="GC" />
+        </DockPanel>
+        <DockPanel Grid.Row="3">
+            <TextBlock Width="150" Text="Материнская плата"/>
+            <TextBox x:Name="MP" />
+        </DockPanel>
+        <DockPanel Grid.Row="4">
+            <TextBlock Width="150" Text="Объём ОЗУ"/>
+            <TextBox x:Name="RAM" />
+        </DockPanel>
+        <DockPanel Grid.Row="5">
+            <TextBlock Width="150" Text="Жёсткий диск"/>
+            <TextBox x:Name="HD" />
+        </DockPanel>
+        <DockPanel Grid.Row="6">
+            <TextBlock Width="150" Text="Местоположение"/>
+            <ComboBox   x:Name="loc"   Grid.Row="1" Background="#FFB8B8B8"  >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                <Run Text="{Binding Нименование}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+        <Grid Grid.Row="7" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="cls" Content="Закрыть" Grid.Column="1" Margin="10" />
+            <Button x:Name="add" Content="Изменить" Margin="10" Click="add_Click" />
+        </Grid>
+    </Grid>
+</Window>

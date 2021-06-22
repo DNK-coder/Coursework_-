@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Компьютер">
+    <Key>
+      <PropertyRef Name="Код_компьютера" />
+    </Key>
+    <Property Name="Код_компьютера" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Процессор" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Видеокарта" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Мат_плата" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Объём_ОЗУ" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Жёсткий_диск" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Местоположение" Type="Int32" />
+    <NavigationProperty Name="Накладная" Relationship="Self.FK_Накладная_Компьютер" FromRole="Компьютер" ToRole="Накладная" />
+  </EntityType>
+  <EntityType Name="Местоположения">
+    <Key>
+      <PropertyRef Name="Код_местоположения" />
+    </Key>
+    <Property Name="Код_местоположения" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Нименование" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Накладная" Relationship="Self.FK_Накладная_Местоположения" FromRole="Местоположения" ToRole="Накладная" />
+    <NavigationProperty Name="Накладная1" Relationship="Self.FK_Накладная_Местоположения1" FromRole="Местоположения" ToRole="Накладная" />
+  </EntityType>
+  <EntityType Name="Накладная">
+    <Key>
+      <PropertyRef Name="Код_накладной" />
+    </Key>
+    <Property Name="Код_накладной" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Компьютер" Type="Int32" />
+    <Property Name="Дата" Type="DateTime" Precision="0" />
+    <Property Name="От_куда" Type="Int32" />
+    <Property Name="Куда" Type="Int32" />
+    <Property Name="Ответственный" Type="Int32" />
+    <NavigationProperty Name="Компьютер1" Relationship="Self.FK_Накладная_Компьютер" FromRole="Накладная" ToRole="Компьютер" />
+    <NavigationProperty Name="Местоположения" Relationship="Self.FK_Накладная_Местоположения" FromRole="Накладная" ToRole="Местоположения" />
+    <NavigationProperty Name="Местоположения1" Relationship="Self.FK_Накладная_Местоположения1" FromRole="Накладная" ToRole="Местоположения" />
+    <NavigationProperty Name="Работник_тех_отдела" Relationship="Self.FK_Накладная_Работник_тех_отдела" FromRole="Накладная" ToRole="Работник_тех_отдела" />
+  </EntityType>
+  <EntityType Name="Работник_тех_отдела">
+    <Key>
+      <PropertyRef Name="Код_сотрудника" />
+    </Key>
+    <Property Name="Код_сотрудника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Фамилия" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Имя" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Отчетво" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Накладная" Relationship="Self.FK_Накладная_Работник_тех_отдела" FromRole="Работник_тех_отдела" ToRole="Накладная" />
+  </EntityType>
+  <Association Name="FK_Накладная_Компьютер">
+    <End Role="Компьютер" Type="Self.Компьютер" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Компьютер">
+        <PropertyRef Name="Код_компьютера" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="Компьютер" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Накладная_Местоположения">
+    <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Местоположения">
+        <PropertyRef Name="Код_местоположения" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="От_куда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Накладная_Местоположения1">
+    <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Местоположения">
+        <PropertyRef Name="Код_местоположения" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="Куда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Накладная_Работник_тех_отдела">
+    <End Role="Работник_тех_отдела" Type="Self.Работник_тех_отдела" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Работник_тех_отдела">
+        <PropertyRef Name="Код_сотрудника" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="Ответственный" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Компьютер" EntityType="Self.Компьютер" />
+    <EntitySet Name="Местоположения" EntityType="Self.Местоположения" />
+    <EntitySet Name="Накладная" EntityType="Self.Накладная" />
+    <EntitySet Name="Работник_тех_отдела" EntityType="Self.Работник_тех_отдела" />
+    <AssociationSet Name="FK_Накладная_Компьютер" Association="Self.FK_Накладная_Компьютер">
+      <End Role="Компьютер" EntitySet="Компьютер" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Накладная_Местоположения" Association="Self.FK_Накладная_Местоположения">
+      <End Role="Местоположения" EntitySet="Местоположения" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Накладная_Местоположения1" Association="Self.FK_Накладная_Местоположения1">
+      <End Role="Местоположения" EntitySet="Местоположения" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Накладная_Работник_тех_отдела" Association="Self.FK_Накладная_Работник_тех_отдела">
+      <End Role="Работник_тех_отдела" EntitySet="Работник_тех_отдела" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

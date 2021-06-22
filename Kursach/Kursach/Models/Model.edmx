@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Компьютер">
+          <Key>
+            <PropertyRef Name="Код_компьютера" />
+          </Key>
+          <Property Name="Код_компьютера" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Процессор" Type="nchar" MaxLength="20" />
+          <Property Name="Видеокарта" Type="nchar" MaxLength="20" />
+          <Property Name="Мат_плата" Type="nchar" MaxLength="20" />
+          <Property Name="Объём_ОЗУ" Type="nchar" MaxLength="20" />
+          <Property Name="Жёсткий_диск" Type="nchar" MaxLength="20" />
+          <Property Name="Местоположение" Type="int" />
+        </EntityType>
+        <EntityType Name="Местоположения">
+          <Key>
+            <PropertyRef Name="Код_местоположения" />
+          </Key>
+          <Property Name="Код_местоположения" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Нименование" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Накладная">
+          <Key>
+            <PropertyRef Name="Код_накладной" />
+          </Key>
+          <Property Name="Код_накладной" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Компьютер" Type="int" />
+          <Property Name="Дата" Type="date" />
+          <Property Name="От_куда" Type="int" />
+          <Property Name="Куда" Type="int" />
+          <Property Name="Ответственный" Type="int" />
+        </EntityType>
+        <EntityType Name="Работник тех отдела">
+          <Key>
+            <PropertyRef Name="Код_сотрудника" />
+          </Key>
+          <Property Name="Код_сотрудника" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nchar" MaxLength="20" />
+          <Property Name="Имя" Type="nchar" MaxLength="20" />
+          <Property Name="Отчетво" Type="nchar" MaxLength="20" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Накладная_Компьютер">
+          <End Role="Компьютер" Type="Self.Компьютер" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Компьютер">
+              <PropertyRef Name="Код_компьютера" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="Компьютер" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Накладная_Местоположения">
+          <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Местоположения">
+              <PropertyRef Name="Код_местоположения" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="От_куда" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Накладная_Местоположения1">
+          <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Местоположения">
+              <PropertyRef Name="Код_местоположения" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="Куда" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Накладная_Работник тех отдела">
+          <End Role="Работник тех отдела" Type="Self.Работник тех отдела" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Работник тех отдела">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="Ответственный" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Компьютер" EntityType="Self.Компьютер" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Местоположения" EntityType="Self.Местоположения" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Накладная" EntityType="Self.Накладная" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Работник тех отдела" EntityType="Self.Работник тех отдела" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Накладная_Компьютер" Association="Self.FK_Накладная_Компьютер">
+            <End Role="Компьютер" EntitySet="Компьютер" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Накладная_Местоположения" Association="Self.FK_Накладная_Местоположения">
+            <End Role="Местоположения" EntitySet="Местоположения" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Накладная_Местоположения1" Association="Self.FK_Накладная_Местоположения1">
+            <End Role="Местоположения" EntitySet="Местоположения" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Накладная_Работник тех отдела" Association="Self.FK_Накладная_Работник тех отдела">
+            <End Role="Работник тех отдела" EntitySet="Работник тех отдела" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Компьютер">
+          <Key>
+            <PropertyRef Name="Код_компьютера" />
+          </Key>
+          <Property Name="Код_компьютера" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Процессор" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Видеокарта" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Мат_плата" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Объём_ОЗУ" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Жёсткий_диск" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Местоположение" Type="Int32" />
+          <NavigationProperty Name="Накладная" Relationship="Self.FK_Накладная_Компьютер" FromRole="Компьютер" ToRole="Накладная" />
+        </EntityType>
+        <EntityType Name="Местоположения">
+          <Key>
+            <PropertyRef Name="Код_местоположения" />
+          </Key>
+          <Property Name="Код_местоположения" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Нименование" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Накладная" Relationship="Self.FK_Накладная_Местоположения" FromRole="Местоположения" ToRole="Накладная" />
+          <NavigationProperty Name="Накладная1" Relationship="Self.FK_Накладная_Местоположения1" FromRole="Местоположения" ToRole="Накладная" />
+        </EntityType>
+        <EntityType Name="Накладная">
+          <Key>
+            <PropertyRef Name="Код_накладной" />
+          </Key>
+          <Property Name="Код_накладной" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Компьютер" Type="Int32" />
+          <Property Name="Дата" Type="DateTime" Precision="0" />
+          <Property Name="От_куда" Type="Int32" />
+          <Property Name="Куда" Type="Int32" />
+          <Property Name="Ответственный" Type="Int32" />
+          <NavigationProperty Name="Компьютер1" Relationship="Self.FK_Накладная_Компьютер" FromRole="Накладная" ToRole="Компьютер" />
+          <NavigationProperty Name="Местоположения" Relationship="Self.FK_Накладная_Местоположения" FromRole="Накладная" ToRole="Местоположения" />
+          <NavigationProperty Name="Местоположения1" Relationship="Self.FK_Накладная_Местоположения1" FromRole="Накладная" ToRole="Местоположения" />
+          <NavigationProperty Name="Работник_тех_отдела" Relationship="Self.FK_Накладная_Работник_тех_отдела" FromRole="Накладная" ToRole="Работник_тех_отдела" />
+        </EntityType>
+        <EntityType Name="Работник_тех_отдела">
+          <Key>
+            <PropertyRef Name="Код_сотрудника" />
+          </Key>
+          <Property Name="Код_сотрудника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Имя" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Отчетво" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Накладная" Relationship="Self.FK_Накладная_Работник_тех_отдела" FromRole="Работник_тех_отдела" ToRole="Накладная" />
+        </EntityType>
+        <Association Name="FK_Накладная_Компьютер">
+          <End Role="Компьютер" Type="Self.Компьютер" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Компьютер">
+              <PropertyRef Name="Код_компьютера" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="Компьютер" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Накладная_Местоположения">
+          <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Местоположения">
+              <PropertyRef Name="Код_местоположения" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="От_куда" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Накладная_Местоположения1">
+          <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Местоположения">
+              <PropertyRef Name="Код_местоположения" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="Куда" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Накладная_Работник_тех_отдела">
+          <End Role="Работник_тех_отдела" Type="Self.Работник_тех_отдела" Multiplicity="0..1" />
+          <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Работник_тех_отдела">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Накладная">
+              <PropertyRef Name="Ответственный" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Компьютер" EntityType="Self.Компьютер" />
+          <EntitySet Name="Местоположения" EntityType="Self.Местоположения" />
+          <EntitySet Name="Накладная" EntityType="Self.Накладная" />
+          <EntitySet Name="Работник_тех_отдела" EntityType="Self.Работник_тех_отдела" />
+          <AssociationSet Name="FK_Накладная_Компьютер" Association="Self.FK_Накладная_Компьютер">
+            <End Role="Компьютер" EntitySet="Компьютер" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Накладная_Местоположения" Association="Self.FK_Накладная_Местоположения">
+            <End Role="Местоположения" EntitySet="Местоположения" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Накладная_Местоположения1" Association="Self.FK_Накладная_Местоположения1">
+            <End Role="Местоположения" EntitySet="Местоположения" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Накладная_Работник_тех_отдела" Association="Self.FK_Накладная_Работник_тех_отдела">
+            <End Role="Работник_тех_отдела" EntitySet="Работник_тех_отдела" />
+            <End Role="Накладная" EntitySet="Накладная" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Компьютер">
+            <EntityTypeMapping TypeName="Model.Компьютер">
+              <MappingFragment StoreEntitySet="Компьютер">
+                <ScalarProperty Name="Код_компьютера" ColumnName="Код_компьютера" />
+                <ScalarProperty Name="Процессор" ColumnName="Процессор" />
+                <ScalarProperty Name="Видеокарта" ColumnName="Видеокарта" />
+                <ScalarProperty Name="Мат_плата" ColumnName="Мат_плата" />
+                <ScalarProperty Name="Объём_ОЗУ" ColumnName="Объём_ОЗУ" />
+                <ScalarProperty Name="Жёсткий_диск" ColumnName="Жёсткий_диск" />
+                <ScalarProperty Name="Местоположение" ColumnName="Местоположение" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Местоположения">
+            <EntityTypeMapping TypeName="Model.Местоположения">
+              <MappingFragment StoreEntitySet="Местоположения">
+                <ScalarProperty Name="Код_местоположения" ColumnName="Код_местоположения" />
+                <ScalarProperty Name="Нименование" ColumnName="Нименование" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Накладная">
+            <EntityTypeMapping TypeName="Model.Накладная">
+              <MappingFragment StoreEntitySet="Накладная">
+                <ScalarProperty Name="Код_накладной" ColumnName="Код_накладной" />
+                <ScalarProperty Name="Компьютер" ColumnName="Компьютер" />
+                <ScalarProperty Name="Дата" ColumnName="Дата" />
+                <ScalarProperty Name="От_куда" ColumnName="От_куда" />
+                <ScalarProperty Name="Куда" ColumnName="Куда" />
+                <ScalarProperty Name="Ответственный" ColumnName="Ответственный" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Работник_тех_отдела">
+            <EntityTypeMapping TypeName="Model.Работник_тех_отдела">
+              <MappingFragment StoreEntitySet="Работник тех отдела">
+                <ScalarProperty Name="Код_сотрудника" ColumnName="Код_сотрудника" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчетво" ColumnName="Отчетво" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

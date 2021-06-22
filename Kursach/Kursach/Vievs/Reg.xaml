@@ -1,0 +1,54 @@
+﻿<Window x:Class="Kursach.Vievs.Reg"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kursach.Vievs"
+        mc:Ignorable="d"
+        Title="Reg" Height="450" Width="800">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="6" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Add" Content="Зарегистрировать" FontSize="17" Height="30" Width="150" Click="Add_Click"  />
+            <Button Grid.Column="1"  Content="Закрыть" FontSize="17" Height="30" Width="100" Click="Button_Click"  />
+        </Grid>
+        <DockPanel >
+            <TextBlock Text="Регистрация" FontSize="30" TextAlignment="Center" VerticalAlignment="Center"/>
+        </DockPanel>
+        <DockPanel Grid.Row="1" >
+            <TextBlock Grid.Row="1" Text="Фамилия" Width="150" FontSize="25"/>
+            <TextBox x:Name="lname" Grid.Row="1" />
+        </DockPanel>
+        <DockPanel Grid.Row="2" >
+            <TextBlock Grid.Row="1" Text="Имя" Width="150" FontSize="25"/>
+            <TextBox x:Name="name" Grid.Row="1" />
+        </DockPanel>
+        <DockPanel Grid.Row="3" >
+            <TextBlock Grid.Row="1" Text="Отчество" Width="150" FontSize="25"/>
+            <TextBox x:Name="mname" Grid.Row="1" />
+        </DockPanel>
+
+        <DockPanel Grid.Row="4" >
+            <TextBlock Grid.Row="1" Text="Логин" Width="150" FontSize="25"/>
+            <TextBox x:Name="login"  />
+        </DockPanel>
+        <DockPanel Grid.Row="5" >
+            <TextBlock Grid.Row="1" Text="Пароль" Width="150" FontSize="25"/>
+            <TextBox x:Name="pass"  />
+        </DockPanel>
+
+    </Grid>
+</Window>

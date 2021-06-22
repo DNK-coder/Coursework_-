@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Компьютер">
+    <Key>
+      <PropertyRef Name="Код_компьютера" />
+    </Key>
+    <Property Name="Код_компьютера" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Процессор" Type="nchar" MaxLength="20" />
+    <Property Name="Видеокарта" Type="nchar" MaxLength="20" />
+    <Property Name="Мат_плата" Type="nchar" MaxLength="20" />
+    <Property Name="Объём_ОЗУ" Type="nchar" MaxLength="20" />
+    <Property Name="Жёсткий_диск" Type="nchar" MaxLength="20" />
+    <Property Name="Местоположение" Type="int" />
+  </EntityType>
+  <EntityType Name="Местоположения">
+    <Key>
+      <PropertyRef Name="Код_местоположения" />
+    </Key>
+    <Property Name="Код_местоположения" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Нименование" Type="nchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Накладная">
+    <Key>
+      <PropertyRef Name="Код_накладной" />
+    </Key>
+    <Property Name="Код_накладной" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Компьютер" Type="int" />
+    <Property Name="Дата" Type="date" />
+    <Property Name="От_куда" Type="int" />
+    <Property Name="Куда" Type="int" />
+    <Property Name="Ответственный" Type="int" />
+  </EntityType>
+  <EntityType Name="Работник тех отдела">
+    <Key>
+      <PropertyRef Name="Код_сотрудника" />
+    </Key>
+    <Property Name="Код_сотрудника" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Фамилия" Type="nchar" MaxLength="20" />
+    <Property Name="Имя" Type="nchar" MaxLength="20" />
+    <Property Name="Отчетво" Type="nchar" MaxLength="20" />
+    <Property Name="Логин" Type="nvarchar" MaxLength="50" />
+    <Property Name="Пароль" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Накладная_Компьютер">
+    <End Role="Компьютер" Type="Self.Компьютер" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Компьютер">
+        <PropertyRef Name="Код_компьютера" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="Компьютер" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Накладная_Местоположения">
+    <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Местоположения">
+        <PropertyRef Name="Код_местоположения" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="От_куда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Накладная_Местоположения1">
+    <End Role="Местоположения" Type="Self.Местоположения" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Местоположения">
+        <PropertyRef Name="Код_местоположения" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="Куда" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Накладная_Работник тех отдела">
+    <End Role="Работник тех отдела" Type="Self.Работник тех отдела" Multiplicity="0..1" />
+    <End Role="Накладная" Type="Self.Накладная" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Работник тех отдела">
+        <PropertyRef Name="Код_сотрудника" />
+      </Principal>
+      <Dependent Role="Накладная">
+        <PropertyRef Name="Ответственный" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище ModelContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Компьютер" EntityType="Self.Компьютер" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Местоположения" EntityType="Self.Местоположения" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Накладная" EntityType="Self.Накладная" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Работник тех отдела" EntityType="Self.Работник тех отдела" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Накладная_Компьютер" Association="Self.FK_Накладная_Компьютер">
+      <End Role="Компьютер" EntitySet="Компьютер" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Накладная_Местоположения" Association="Self.FK_Накладная_Местоположения">
+      <End Role="Местоположения" EntitySet="Местоположения" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Накладная_Местоположения1" Association="Self.FK_Накладная_Местоположения1">
+      <End Role="Местоположения" EntitySet="Местоположения" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Накладная_Работник тех отдела" Association="Self.FK_Накладная_Работник тех отдела">
+      <End Role="Работник тех отдела" EntitySet="Работник тех отдела" />
+      <End Role="Накладная" EntitySet="Накладная" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
